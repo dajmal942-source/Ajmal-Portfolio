@@ -1,9 +1,9 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 
 const field =
-  "w-full rounded-xl border-2 border-ink bg-white/70 px-4 py-2.5 text-sm outline-none transition focus:bg-white focus:ring-2 focus:ring-ink/30";
+  "w-full rounded-xl border border-[#262626] bg-[#141414] px-4 py-3 text-sm text-white placeholder:text-[#666666] outline-none transition duration-200 focus:border-[#C6F52B] focus:bg-[#181818] focus:ring-2 focus:ring-[#C6F52B]/20";
 
 export default function ContactForm() {
   const [status, setStatus] = useState("idle"); // idle | sending | success | error
@@ -31,7 +31,7 @@ export default function ContactForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="mx-auto mt-8 w-full max-w-lg space-y-3 text-left">
+    <form onSubmit={onSubmit} className="mx-auto mt-8 w-full max-w-lg space-y-4 text-left">
       {/* Honeypot */}
       <input
         type="text"
@@ -53,23 +53,25 @@ export default function ContactForm() {
         />
       </div>
       <textarea
-        className={`${field} resize-y`}
+        className={`${field} resize-y min-h-[110px]`}
         name="message"
         rows={4}
-        placeholder="How can I help?"
+        placeholder="How can I help you grow?"
         required
         maxLength={2000}
       />
       <button
         type="submit"
         disabled={status === "sending"}
-        className="w-full rounded-full border-2 border-ink bg-ink px-6 py-3 text-xs font-bold uppercase tracking-widest text-cream transition hover:bg-transparent hover:text-ink disabled:opacity-60"
+        className="w-full rounded-xl bg-[#C6F52B] px-6 py-3.5 text-xs font-bold uppercase tracking-widest text-[#0D0D0D] transition-all duration-300 hover:bg-[#d5ff48] hover:shadow-[0_0_25px_rgba(198,245,43,0.5)] active:scale-[0.99] disabled:opacity-50 cursor-pointer"
       >
-        {status === "sending" ? "Sending…" : "Send message"}
+        {status === "sending" ? "Sending..." : "Send Message"}
       </button>
       <p role="status" aria-live="polite" className="min-h-5 text-center text-xs font-medium">
-        {status === "success" && "Thanks! Your message was sent. I'll reply soon."}
-        {status === "error" && error}
+        {status === "success" && (
+          <span className="text-[#C6F52B]">Thanks! Your message was sent. I will reply soon.</span>
+        )}
+        {status === "error" && <span className="text-red-400">{error}</span>}
       </p>
     </form>
   );

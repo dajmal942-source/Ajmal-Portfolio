@@ -1,21 +1,22 @@
-import { Anton, Great_Vibes, Montserrat } from "next/font/google";
+﻿import { Poppins, Montserrat, Great_Vibes } from "next/font/google";
 import "./globals.css";
 
-const anton = Anton({
-  variable: "--font-anton",
+const poppins = Poppins({
+  variable: "--font-poppins",
   subsets: ["latin"],
-  weight: "400",
+  weight: ["400", "500", "600", "700", "800", "900"],
+});
+
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
 });
 
 const greatVibes = Great_Vibes({
   variable: "--font-great-vibes",
   subsets: ["latin"],
   weight: "400",
-});
-
-const montserrat = Montserrat({
-  variable: "--font-montserrat",
-  subsets: ["latin"],
 });
 
 export const metadata = {
@@ -34,9 +35,11 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${anton.variable} ${greatVibes.variable} ${montserrat.variable} scroll-smooth antialiased`}
+      className={`${poppins.variable} ${montserrat.variable} ${greatVibes.variable} scroll-smooth antialiased dark`}
     >
-      <body>{children}</body>
+      <body className="bg-[#0D0D0D] font-sans text-white selection:bg-[#C6F52B] selection:text-[#0D0D0D]">
+        {children}
+      </body>
     </html>
   );
 }

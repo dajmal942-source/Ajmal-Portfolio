@@ -1,128 +1,205 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-cream: #f5ebd9;
-  --color-ink: #1a1a1a;
-  --color-concrete: #b9b6b0;
-  --font-display: var(--font-anton), Impact, sans-serif;
+  --color-bg-primary: #0D0D0D;
+  --color-accent-neon: #C6F52B;
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #B3B3B3;
+  --color-surface: #141414;
+  --color-surface-card: #181818;
+  --color-surface-border: #262626;
+  --color-image-accent: #4A3B2A;
+  --font-display: var(--font-poppins), var(--font-montserrat), sans-serif;
+  --font-sans: var(--font-montserrat), var(--font-poppins), sans-serif;
   --font-script: var(--font-great-vibes), cursive;
-  --font-sans: var(--font-montserrat), Helvetica, Arial, sans-serif;
+}
+
+:root {
+  --bg-primary: #0D0D0D;
+  --accent-neon: #C6F52B;
+  --text-primary: #FFFFFF;
+  --text-secondary: #B3B3B3;
+}
+
+::selection {
+  background-color: #C6F52B;
+  color: #0D0D0D;
+}
+
+/* Custom dark scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #0D0D0D;
+}
+::-webkit-scrollbar-thumb {
+  background: #262626;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C6F52B;
 }
 
 @layer base {
   body {
-    @apply bg-concrete font-sans text-ink;
-    background-image:
-      radial-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px),
-      radial-gradient(rgba(255, 255, 255, 0.25) 1px, transparent 1px);
-    background-size: 6px 6px, 11px 11px;
-    background-position: 0 0, 3px 3px;
+    background-color: #0D0D0D;
+    color: #FFFFFF;
+    font-family: var(--font-montserrat), sans-serif;
+    overflow-x: hidden;
+    background-image: 
+      radial-gradient(rgba(198, 245, 43, 0.07) 1px, transparent 1px),
+      linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size: 24px 24px, 48px 48px, 48px 48px;
   }
 }
 
-@layer components {
-  .slide {
-    @apply relative overflow-hidden bg-cream shadow-[0_24px_60px_rgba(0,0,0,0.35),0_4px_12px_rgba(0,0,0,0.2)];
-  }
+/* Cyberpunk notched corners: slanted cuts on top-right and bottom-left */
+.cyber-notch {
+  clip-path: polygon(
+    0 0,
+    calc(100% - 24px) 0,
+    100% 24px,
+    100% 100%,
+    24px 100%,
+    0 calc(100% - 24px)
+  );
 }
 
-/* ---------- Animations ---------- */
+.cyber-notch-lg {
+  clip-path: polygon(
+    0 0,
+    calc(100% - 36px) 0,
+    100% 36px,
+    100% 100%,
+    36px 100%,
+    0 calc(100% - 36px)
+  );
+}
 
-/* Scroll reveal (see components/Reveal.jsx) */
+.cyber-notch-sm {
+  clip-path: polygon(
+    0 0,
+    calc(100% - 14px) 0,
+    100% 14px,
+    100% 100%,
+    14px 100%,
+    0 calc(100% - 14px)
+  );
+}
+
+/* Neon glow classes */
+.glow-neon {
+  box-shadow: 0 0 25px rgba(198, 245, 43, 0.35);
+}
+.glow-neon-sm {
+  box-shadow: 0 0 12px rgba(198, 245, 43, 0.25);
+}
+.glow-text-neon {
+  text-shadow: 0 0 15px rgba(198, 245, 43, 0.45);
+}
+
+/* Scroll reveal animations */
 .reveal {
   opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .reveal-in {
   opacity: 1;
-  transform: none;
+  transform: translateY(0);
 }
 
-/* Hero entrance */
+/* Hero animations */
 @keyframes rise {
   from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: none; }
+  to { opacity: 1; transform: translateY(0); }
 }
 .hero-in {
   opacity: 0;
-  animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+  animation: rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Floating brush shapes + portrait */
-@keyframes float {
-  0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
-  50% { transform: translateY(-14px) rotate(calc(var(--r, 0deg) + 3deg)); }
+/* Neon pulse */
+@keyframes pulse-neon-ring {
+  0% { box-shadow: 0 0 0 0 rgba(198, 245, 43, 0.7); }
+  70% { box-shadow: 0 0 0 12px rgba(198, 245, 43, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(198, 245, 43, 0); }
 }
-.float { animation: float 7s ease-in-out infinite; }
-.float-slow { animation: float 10s ease-in-out infinite reverse; }
-
-/* Gradient shimmer on the name */
-@keyframes shimmer {
-  to { background-position: 200% center; }
-}
-.shimmer-text {
-  background: linear-gradient(90deg, #1a1a1a 0%, #1a1a1a 40%, #ff5f56 50%, #1a1a1a 60%, #1a1a1a 100%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: shimmer 5s linear infinite;
+.pulse-neon {
+  animation: pulse-neon-ring 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-/* Elements combining hero-in + shimmer-text need both animations named
-   explicitly, otherwise the later class's `animation` shorthand wins the
-   cascade and silently overrides the other (leaving opacity stuck at 0). */
-.hero-in.shimmer-text {
-  animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) forwards, shimmer 5s linear infinite;
-}
-
-/* Logo marquee */
+/* Marquee */
 @keyframes marquee {
   to { transform: translateX(-50%); }
 }
 .marquee {
   mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
 }
-.marquee-track { animation: marquee 40s linear infinite; }
-.marquee-reverse { animation-direction: reverse; }
-.marquee:hover .marquee-track { animation-play-state: paused; }
-
-/* Logos: grey until hovered, then brand colour + pop */
-.logo-icon { color: #555; transition: color 0.3s, transform 0.3s; display: inline-grid; place-items: center; }
-.logo-chip, .logo-tile, .cert-badge {
-  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.3s;
+.marquee-track {
+  animation: marquee 35s linear infinite;
 }
-.logo-chip:hover, .logo-tile:hover, .cert-badge:hover {
-  transform: translateY(-4px) scale(1.04);
-  box-shadow: 4px 4px 0 var(--brand);
-}
-.logo-chip:hover .logo-icon, .logo-tile:hover .logo-icon, .cert-badge:hover .logo-icon {
-  color: var(--brand);
-  transform: rotate(-8deg) scale(1.15);
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
 }
 
-/* Pills + campaign cards */
-.pill { transition: transform 0.25s, background-color 0.25s, color 0.25s; }
-.pill:hover { transform: translateY(-3px) rotate(-1.5deg); background: #1a1a1a; color: #f5ebd9; }
-.card-lift { transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.35s; }
-.card-lift:hover { transform: translateY(-8px) rotate(-0.6deg); box-shadow: 0 22px 40px rgba(0, 0, 0, 0.32); }
-
-/* Timeline dot pulse */
-@keyframes pulse-ring {
-  0% { box-shadow: 0 0 0 0 rgba(255, 189, 46, 0.7); }
-  100% { box-shadow: 0 0 0 14px rgba(255, 189, 46, 0); }
+/* Tech cards & hover lift */
+.tech-card {
+  background: #141414;
+  border: 1px solid #262626;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.pulse-dot { animation: pulse-ring 2s ease-out infinite; }
+.tech-card:hover {
+  border-color: #C6F52B;
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px -10px rgba(198, 245, 43, 0.18);
+}
 
-/* Underline sweep for links */
-.link-sweep { background: linear-gradient(currentColor, currentColor) 0 100% / 0 2px no-repeat; transition: background-size 0.3s; }
-.link-sweep:hover { background-size: 100% 2px; }
+/* Value Proposition card styling */
+.val-prop-card {
+  transition: all 0.3s ease;
+}
+.val-prop-card:hover .val-prop-icon {
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 10px #C6F52B);
+}
 
-html { scroll-behavior: smooth; }
+/* Link sweep with neon */
+.link-sweep {
+  background: linear-gradient(#C6F52B, #C6F52B) 0 100% / 0 2px no-repeat;
+  transition: background-size 0.3s ease, color 0.3s ease;
+}
+.link-sweep:hover {
+  background-size: 100% 2px;
+  color: #C6F52B;
+}
+
+/* Neon Pill */
+.tech-pill {
+  transition: all 0.25s ease;
+}
+.tech-pill:hover {
+  border-color: #C6F52B;
+  background-color: #C6F52B;
+  color: #0D0D0D;
+  transform: translateY(-2px);
+  box-shadow: 0 0 14px rgba(198, 245, 43, 0.4);
+}
+
+html {
+  scroll-behavior: smooth;
+}
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal, .hero-in, .hero-in.shimmer-text { opacity: 1; transform: none; animation: none; transition: none; }
-  .float, .float-slow, .shimmer-text, .marquee-track, .pulse-dot { animation: none; }
-  html { scroll-behavior: auto; }
+  .reveal, .hero-in {
+    opacity: 1;
+    transform: none;
+    animation: none;
+    transition: none;
+  }
+  .pulse-neon, .marquee-track {
+    animation: none;
+  }
 }
